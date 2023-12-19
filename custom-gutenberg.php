@@ -15,16 +15,36 @@
  * Domain Path:       /languages
  */
 
- if ( ! defined( 'ABSPATH' ) ) {
+if (!defined('ABSPATH')) {
 	exit; // Exit if accessed directly
- }
+}
 
- if( ! class_exists('Cust_Gute_Plugin')){
-    class Cust_Gute_Plugin {
-        public static function init() {
-            
-        }
-    }
+/**
+ * Currently plugin version. - https://semver.org
+ */
+define('CGP_VERSION', '0.0.1');
 
-    Cust_Gute_Plugin::init();
- }
+function activate_cgp()
+{
+	require_once plugin_dir_path(__FILE__) . 'includes/class-custom-gutenberg-activator.php';
+	CGP_Activator::activate();
+}
+
+function deactivate_cgp()
+{
+	require_once plugin_dir_path(__FILE__) . 'includes/class-custom-gutenberg-deactivator.php';
+	CGP_Deactivator::deactivate();
+}
+
+register_activation_hook(__FILE__, 'activate_cgp');
+register_deactivation_hook(__FILE__, 'deactivate_cgp');
+
+require plugin_dir_path(__FILE__) . 'includes/class-custom-gutenberg.php';
+
+function run_cgp()
+{
+
+	$cgp = new CGP();
+	$cgp->run();
+}
+run_cgp();
